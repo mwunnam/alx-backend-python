@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+""" Concatinates two strings """
+
 
 def concat(str1: str, str2: str) -> str:
     """

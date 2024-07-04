@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+""" to_str function with annotation"""
+
 
 def to_str(n: float) -> str:
     """

@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+""" Floor function with annotation"""
+
+
 import math
 
 
