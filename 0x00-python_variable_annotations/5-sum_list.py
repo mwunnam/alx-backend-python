@@ -3,9 +3,9 @@
 from typing import List
 
 
-def sum_list(input_list: list[float]) -> float:
+def sum_list(input_list: List[float]) -> float:
     """
     This gives the sum of the elemet in the list
     """
 
-    return sum(input_list)
+    return float(sum(input_list))
