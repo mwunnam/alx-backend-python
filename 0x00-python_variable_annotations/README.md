@@ -13,10 +13,10 @@ x: int = 10
 y: str = 'Hello'
 
 ```
-__Syntax:
+_Syntax_:
 	<variable_name>: <variable_type> = <value_of_variable>
 
-__Function Annotations
+_Function Annotations_
 You can use this to seet the type of the parameters, and the return type
 ```Python
 def greetings(name: str) -> str:
@@ -26,7 +26,7 @@ def sum(a: int, b: int) -> int:
 	return a + b
 ```
 
-Complex Types
+_Complex Types_
 You can you use it for more complex types like list, dictionaries and custom types
 You will have to import List, Dict, Tuple, Optional from typing
 ```python
@@ -47,7 +47,7 @@ def find_item(items: List[str], key: str) -> Optional[str]:
 Optional : This is used when the function can either return something or None
 
 
-__Type Aliases
+_Type Aliases_
 ```python
 from typing import Dict
 ScoreMap = Dict[str, int]
