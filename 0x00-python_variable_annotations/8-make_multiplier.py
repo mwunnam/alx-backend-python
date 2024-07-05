@@ -9,7 +9,7 @@ def make_multiplier(multiplier: float) -> Callable[[float], float]:
     This function takes a float multiplier as an argument and returns a
     funtions multiplies a float by the given multiplier
     """
-    def mult(value: float) -> float:
+    def multiplier_function(value: float) -> float:
         return multiplier * value
 
-    return multiplier
+    return multiplier_function
