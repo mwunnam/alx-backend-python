@@ -133,7 +133,17 @@ def make_adder(addend: int) -> Callable[[int], int]:
 	def adder(value: int) -> int:
 		return value + addend
 	return adder
+
+add_5 = make_adder(5)
+print(add_5(10))  // output: 15
 ```
+_explanation_
+1. when you do add_5 =make_adder(5)
+	add_5 will have the value of adder function
+	add_5 will now act as a function which can take an int type
+2. When you do print(add_5(10)).
+	10 now becomes the 'value' in the adder function and and the return an int which will be 15
+
 
 
 
