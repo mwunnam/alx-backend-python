@@ -10,7 +10,10 @@
 ## **Task 0**
 *What is Mapping and Sequence*: They are abstract base classes that describe the
 the expected types for nest_map.
-    *Mapping is a generic type that represents any object that supports
-    key-value access like dictionaries*
-    *Sequence is a generic type that represents any objects represents an
-    ordered collectoin ex. list, tuple
+
+*Mapping:* is a generic type that represents any object that supports
+key-value access like dictionaries
+
+*Sequence:* is a generic type that represents any objects represents an
+ordered collectoin ex. list, tuple
+
