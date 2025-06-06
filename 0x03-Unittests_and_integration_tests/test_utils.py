@@ -2,8 +2,8 @@
 
 import unittest
 from unittest.mock import patch
-from utils import access_nested_map 
-from utils import get_json 
+from utils import access_nested_map
+from utils import get_json
 from utils import memoize
 from parameterized import parameterized
 
@@ -58,7 +58,7 @@ class TestGetJson(unittest.TestCase):
         mock_get.assert_called_once_with(test_url)
 
 
-class TestMemoizer(unittest.TestCase):
+class TestMemoize(unittest.TestCase):
     """
     Test Memoize class
     """
