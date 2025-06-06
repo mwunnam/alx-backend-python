@@ -10,6 +10,7 @@ class User(AbstractUser):
     last_name = models.TextField()
     password = models.TextField()
     email = models.EmailField()
+    phone_number = models.IntegerField()
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
