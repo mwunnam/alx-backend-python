@@ -7,6 +7,7 @@ from utils import get_json
 from utils import memoize
 from parameterized import parameterized
 
+
 class TestAccessNestedMap(unittest.TestCase):
     """
     Unitest Class for testing utils functions
@@ -16,7 +17,6 @@ class TestAccessNestedMap(unittest.TestCase):
         ({"a": {"b": 2}}, ("a",), {"b": 2}),
         ({"a": {"b": 2}}, ("a", "b"), 2),
     ])
-
     def test_access_nested_map(self, nested_map, path, expected):
         """
         test for test_access_nested_map
@@ -25,12 +25,16 @@ class TestAccessNestedMap(unittest.TestCase):
 
     @parameterized.expand([
             ({}, ("a",), "'a'"),
-            ({"a": 1}, ("a", "b"), "'b'"),  
+            ({"a": 1}, ("a", "b"), "'b'"),
         ])
-    
-    def test_access_nested_map_exception(self, nested_map, path, expected_message):
+    def test_access_nested_map_exception(
+        self,
+        nested_map,
+        path,
+        expected_message
+    ):
         """
-        Testing KeyError error Handling 
+        Testing KeyError error Handling
         """
         with self.assertRaises(KeyError) as context:
             access_nested_map(nested_map, path)
@@ -46,7 +50,6 @@ class TestGetJson(unittest.TestCase):
         ("http://example.com", {"payload": True}),
         ("http://holberton.io", {"payload": False}),
     ])
-
     @patch("utils.requests.get")
     def test_get_json(self, test_url, test_payload, mock_get):
         """
@@ -75,20 +78,19 @@ class TestMemoize(unittest.TestCase):
                 Test case for memoize
                 """
                 return 42
-            
 
             @memoize
             def a_property(self):
                 """
                 Test case for memoize
-                """    
+                """
                 return self.a_method()
-            
+
         with patch.object(
-            TestClass, 
-            'a_method', 
+            TestClass,
+            'a_method',
             return_value=42
-            ) as mock_method:
+        ) as mock_method:
 
             obj = TestClass()
             result1 = obj.a_property
