@@ -1,14 +1,17 @@
 from rest_framework import serializers
+from rest_framework.serializers import CharField
 from .models import User, Conversation, Message
 
 class UserSerializer(serializers.Serializer):
-    full_name = serializers.SerializerMethodField()
+    first_name = serializers.SerializerMethodField()
+    password = serializers.CharField(write_only=True)
+    phone_number = serializers.CharField(required=False)
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'bio', 'profile_image']
-        read_only_field = ['id']
-        
+        fields = ['user_id', 'phone_number', 'email', 'first_name', 'last_name', 'password']
+        read_only_fields = ['user_id']
+
     def get_full_name(self, obj):
         return f"{obj.first_name} {obj.last_name}".strip()
 
@@ -17,8 +20,8 @@ class MessageSerializer(serializers.Serializer):
 
     class Meta:
         model = Message
-        fields = ['id', 'sender', 'conversation', 'content', 'timestamp', 'is_read']
-        read_only_fields = ['id', 'sender', 'timestamp']
+        fields = ['message_id', 'sender', 'conversation_id', 'message_body', 'sent_at', 'is_read']
+        read_only_fields = ['id', 'sender', 'sent_at']
 
     def validate_content(self, value):
         if not value.strip():
