@@ -41,7 +41,7 @@ class TestGetJson(unittest.TestCase):
     """
     Test class ofr get_json function
     """
-    parameterized.expand([
+    @parameterized.expand([
         ("http://example.com", {"payload": True}),
         ("http://holberton.io", {"payload": False}),
     ])
