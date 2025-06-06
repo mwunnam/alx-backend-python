@@ -5,16 +5,14 @@ import uuid
 
 
 class User(AbstractUser):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    bio = models.TextField(blank=True, null=True)
-    profile_image = models.ImageField(
-        upload_to='profiles/',
-        blank=True,
-        null=True,
-    )
+    user_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    frist_name = models.TextField()
+    last_name = models.TextField()
+    password = models.TextField()
+    email = models.EmailField()
 
     def __str__(self):
-        return self.username
+        return f"{self.first_name} {self.last_name}"
 
 class Conversation(models.Model):
     conversation_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
