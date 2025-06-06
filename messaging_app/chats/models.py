@@ -14,32 +14,20 @@ class User(AbstractUser):
     def __str__(self):
         return self.username
 
-class Message(models.Model):
-    sender = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name="message_sent",
-    )
-    conversation = models.ForeignKey(
-        Conversation,
-        on_delete=models.CASACADE,
-        related_name="message_sent",
-    )
-    content = models.TextField()
-    timestamp = models.DateTimeField(default=timezone.now)
-    is_read = modles.BooleanFieal(default=False)
-
-    def __str__(str):
-        return f"Message from {self.sender.username} in chat with id{self.conversation.id}"
-
-
 class Conversation(models.Model):
-    participants = models.ManyToManyField(
-        User,
-        related_name=
-    )
+    participants = models.ManyToManyField(User, related_name='conversations')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
+        participant_names = ', '.join([user.username for user in self.participants.all()])
+        return f"Conversation ({self.id}): {participant_names}"
 
+class Message(models.Model):
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='messages_sent')
+    Conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE, related_name='messages')
+    content = models.TextField()
+    timestamp = models.DateTimeField(default=timezone.now)
+    is_read = models.BooleanField(default=False)
 
+    def __str__(self):
+        return f"From {self.sender.username} in Conversation {self.conversation.id}"
