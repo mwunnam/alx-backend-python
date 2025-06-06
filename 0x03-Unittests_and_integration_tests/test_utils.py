@@ -58,8 +58,14 @@ class TestGetJson(unittest.TestCase):
         mock_get.assert_called_once_with(test_url)
 
 
-class TestMomoizer(unittest.TestCase):
-    def test_memoizer(self):
+class TestMemoizer(unittest.TestCase):
+    """
+    Test Memoize class
+    """
+    def test_memoize(self):
+        """
+        Test case for memoize
+        """
         class TestClass:
             def a_method(self):
                 return 42
