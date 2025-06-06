@@ -63,26 +63,27 @@ class TestGetJson(unittest.TestCase):
 
 class TestMemoize(unittest.TestCase):
     """
-    Test Memoize class
+    Unit tests for the `memoize` decorator function.
     """
     def test_memoize(self):
         """
-        Test case for memoize
+        Test that a method decorated with @memoize is only called once,
+        and the result is cached and returned on subsequent calls.
         """
         class TestClass:
             """
-            Test case for memoize
+           Class with a method and a memoized property.
             """
             def a_method(self):
                 """
-                Test case for memoize
+                Method that returns a constant
                 """
                 return 42
 
             @memoize
             def a_property(self):
                 """
-                Test case for memoize
+                Memoized property that calls a_method.
                 """
                 return self.a_method()
 
