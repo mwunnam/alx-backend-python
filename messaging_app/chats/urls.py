@@ -1,10 +1,9 @@
 from rest_framework_nested import routers
-from rest_framework.routers import DefaultRouter
 from django.contrib import admin
 from django.urls import path, include
 from chats.views import ConversationViewSet, MessageViewSet
 
-router = DefaultRouter()
+router = routers.DefaultRouter()
 router.register(r'conversations', ConversationViewSet, basename='conversation')
 
 convo_router = routers.NestedDefaultRouter(router, r'conversations', lookup='conversation')
