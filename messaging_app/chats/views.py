@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework import viewsets, permissions, status
+from rest_framework import viewsets, permissions, status, filters
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from .models import Conversation, Message
@@ -13,6 +13,7 @@ User = get_user_model()
 class ConversationViewSet(viewsets.ModelViewSet):
     queryset = Conversation.objects.all()
     serializer_class = CoversationSerializer
+    filter_backends = [filters.SearchFilter]
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
@@ -27,6 +28,7 @@ class ConversationViewSet(viewsets.ModelViewSet):
 class MessageViewSet(viewsets.ModelViewSet):
     serializer_class = MessageSerializer
     permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [filters.OrderingFilter]
 
     def get_queryset(self):
         conversation_id = self.kwargs.get('conversation_pk')
