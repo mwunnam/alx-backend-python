@@ -6,10 +6,11 @@ from parameterized import parameterized
 
 class TestGithubOrgClient(unittest.TestCase):
     """
-    Parameterize and patch as decorators using GithubOrgClient from the client module
+    Parameterize and patch as decorators using
+    GithubOrgClient from the client module
     """
     @parameterized.expand([
-        ("google",{"login": "google", "id": 1}),
+        ("google", {"login": "google", "id": 1}),
         ("abc", {"login": "abc", "id": 2}),
     ])
     @patch('client.get_json')
@@ -26,7 +27,6 @@ class TestGithubOrgClient(unittest.TestCase):
         mock_get_json.assert_called_once_with(
             f"https://api.github.com/orgs/{org_name}"
         )
-
 
     def test_public_repos(self):
         """Testing theat  _pulic_repos_url retuns
