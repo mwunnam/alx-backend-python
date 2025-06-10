@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
+""" Test for the clinet models"""
+
 import unittest
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch, MagicMock, PropertyMock
 from client import GithubOrgClient
 from parameterized import parameterized
+
 
 class TestGithubOrgClient(unittest.TestCase):
     """
@@ -28,17 +31,33 @@ class TestGithubOrgClient(unittest.TestCase):
             f"https://api.github.com/orgs/{org_name}"
         )
 
-    def test_public_repos(self):
-        """Testing theat  _pulic_repos_url retuns
+    @patch('Client.get_json')
+    def test_public_repos(self, mock_get_json):
+        """Testing that _pulic_repos_url retuns
             the correct URL
         """
-        payload = {"repos_url": "https://api.github.com/orgs/google/repos"}
+        payload = [
+            {"name": "repo1"},
+            {"name": "repo2"},
+            {"name": "repo3"},
+        ]
+        mock_get_json.return_value = payload
 
-        with patch.object(GithubOrgClient, 'org', return_value=payload):
+        with patch.object(
+            GithubOrgClient,
+            "_public_repos_url",
+            new_callable=PropertyMock
+        ) as mock_url:
+            mock_url.return_value = "https://api.github.com/orgs/google/reops"
+
             client = GithubOrgClient('google')
             result = client._public_repos_url
 
-            self.assertEqual(result, payload["repos_url"])
+            self.assertEqual(result, ["repos1", "repo2", "repo3"])
+            mock_url.assert_called_once()
+            mock_get_json.assert_called_once_with(
+                "https://api.github.com/orgs/google/reops"
+            )
 
 
 if __name__ == "__main__":
