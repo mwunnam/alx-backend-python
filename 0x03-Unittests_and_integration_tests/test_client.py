@@ -23,7 +23,10 @@ class TestGithubOrgClient(unittest.TestCase):
         result = client.org
 
         self.assertEqual(result, expected_payload)
-        mock_get_json.assert_called_once_with(f"https://api.github.com/orgs/{org_name}")
+        mock_get_json.assert_called_once_with(
+            f"https://api.github.com/orgs/{org_name}"
+        )
+
 
     def test_public_repos(self):
         """Testing theat  _pulic_repos_url retuns
@@ -31,10 +34,12 @@ class TestGithubOrgClient(unittest.TestCase):
         """
         payload = {"repos_url": "https://api.github.com/orgs/google/repos"}
 
-        with patch.object(GithubOrgClient, 'org', return_value=payload)
+        with patch.object(GithubOrgClient, 'org', return_value=payload):
             client = GithubOrgClient('google')
             result = client._public_repos_url
 
             self.assertEqual(result, payload["repos_url"])
+
+
 if __name__ == "__main__":
     unittest.main()
