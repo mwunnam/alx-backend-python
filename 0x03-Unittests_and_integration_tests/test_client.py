@@ -5,6 +5,7 @@ import unittest
 from unittest.mock import patch, MagicMock, PropertyMock
 from client import GithubOrgClient
 from parameterized import parameterized
+import requests
 
 
 class TestGithubOrgClient(unittest.TestCase):
@@ -31,32 +32,32 @@ class TestGithubOrgClient(unittest.TestCase):
             f"https://api.github.com/orgs/{org_name}"
         )
 
-    @patch('Client.get_json')
+    @patch('client.get_json')
     def test_public_repos(self, mock_get_json):
-        """Testing that _pulic_repos_url retuns
-            the correct URL
+        """ Test case to mock get_json and _public_repos_url
+            method using patch context manager
         """
-        payload = [
+        test_payload = [
             {"name": "repo1"},
             {"name": "repo2"},
             {"name": "repo3"},
         ]
-        mock_get_json.return_value = payload
+        mock_get_json.return_value = test_payload
 
         with patch.object(
             GithubOrgClient,
-            "_public_repos_url",
+            '_public_repos_url',
             new_callable=PropertyMock
         ) as mock_url:
-            mock_url.return_value = "https://api.github.com/orgs/google/reops"
+            mock_url.return_value = "https://api.github.com/google/repo"
 
-            client = GithubOrgClient('google')
-            result = client._public_repos_url
+            client = GithubOrgClient("google")
+            result = client.public_repos()
 
-            self.assertEqual(result, ["repos1", "repo2", "repo3"])
+            self.assertEqual(result, ["repo1", "repo2", "repo3"])
             mock_url.assert_called_once()
             mock_get_json.assert_called_once_with(
-                "https://api.github.com/orgs/google/reops"
+                "https://api.github.com/google/repo"
             )
 
 
