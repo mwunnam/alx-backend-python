@@ -77,14 +77,16 @@ class TestMemoize(unittest.TestCase):
             """
             def a_method(self):
                 """
-                Method that returns a constant for the testing to be able take place
+                Method that returns a constant for the testing
+                to be able take place
                 """
                 return 42
 
             @memoize
             def a_property(self):
                 """
-                Memoized property that calls a_method and keeps it return value if it's the same
+                Memoized property that calls a_method and keeps it return value
+                if it's the same
                 """
                 return self.a_method()
 
