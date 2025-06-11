@@ -116,13 +116,6 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
             self.apache2_repos
         )
 
-    from client import GithubOrgClient
-from parameterized import parameterized_class
-import unittest
-from unittest.mock import patch
-import requests
-import json
-from fixtures import org_payload, repos_payload, expected_repos, apache2_repos
 
 @parameterized_class([
     {
@@ -172,6 +165,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
             client.public_repos(license="apache-2.0"),
             self.apache2_repos
         )
+
 
 if __name__ == "__main__":
     unittest.main()
