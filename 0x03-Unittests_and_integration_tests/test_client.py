@@ -136,6 +136,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
 
         # Side effects to simulate different API URLs
         def side_effect(url):
+            """Side effect with url"""
             if url == "https://api.github.com/orgs/google":
                 mock_response = unittest.mock.Mock()
                 mock_response.json.return_value = cls.org_payload
