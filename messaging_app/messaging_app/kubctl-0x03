@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# kubctl-0x03.sh
+# Purpose: Rolling update to version 2.0 with live curl test
+
+APP_NAME="django-blue"
+SERVICE_NAME="django-service"
+NAMESPACE="default"
+
+echo "Starting rolling update of $APP_NAME to image version 2.0..."
+
+# Step 1: Apply updated deployment
+kubectl apply -f blue_deployment.yaml
+
+# Step 2: Start curl loop in background to monitor for downtime
+echo "Starting curl requests to test for downtime..."
+SERVICE_IP=$(minikube ip)
+SERVICE_PORT=$(kubectl get svc $SERVICE_NAME -o jsonpath='{.spec.ports[0].nodePort}')
+URL="http://$SERVICE_IP:$SERVICE_PORT"
+
+# Send requests for 30 seconds
+(
+  for i in {1..30}; do
+    response=$(curl -s -o /dev/null -w "%{http_code}" "$URL")
+    echo "[$(date '+%T')] Response code: $response"
+    sleep 1
+  done
+) &
+
+CURL_PID=$!
+
+# Step 3: Monitor rollout
+echo "Watching rollout progress for $APP_NAME..."
+kubectl rollout status deployment/"$APP_NAME"
+
+# Wait for curl loop to finish
+wait $CURL_PID
+
+# Step 4: Check current pods
+echo "Listing current pods after update:"
+kubectl get pods -l app=django,version=blue -o wide
+
+echo "Rolling update completed successfully."
+

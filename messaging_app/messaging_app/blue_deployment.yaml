@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: django-blue
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: django
@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: django-container
-          image: your-django-image:blue  # Replace with actual blue version
+          image: your-django-image:2.0  # ← Update to version 2.0
           ports:
             - containerPort: 8000
 
