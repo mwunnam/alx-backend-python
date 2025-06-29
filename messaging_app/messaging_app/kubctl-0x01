@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# kubctl-0x01.sh
+# Objective: Scale Django app, load test, and monitor resources
+
+APP_NAME="django-messaging-app"
+SERVICE_NAME="django-messaging-nodeport"
+NAMESPACE="default"  # Change if using another namespace
+
+echo "========== Scaling Kubernetes Django App =========="
+
+# Step 1: Scale the deployment
+echo "Scaling deployment '$APP_NAME' to 3 replicas..."
+kubectl scale deployment "$APP_NAME" --replicas=3
+
+# Step 2: Wait for pods to be ready
+echo "Waiting for pods to be ready..."
+kubectl wait --for=condition=available --timeout=60s deployment/"$APP_NAME"
+
+# Step 3: List the pods
+echo "Listing running pods:"
+kubectl get pods -l app=django-messaging
+
+# Step 4: Load testing with wrk
+echo "Running load test using wrk..."
+
+# Get the NodePort and IP
+NODE_PORT=$(kubectl get svc "$SERVICE_NAME" -o jsonpath='{.spec.ports[0].nodePort}')
+NODE_IP=$(minikube ip)
+
+echo "Target: http://$NODE_IP:$NODE_PORT"
+
+# Run wrk test (duration: 10s, connections: 50)
+wrk -t4 -c50 -d10s http://$NODE_IP:$NODE_PORT
+
+# Step 5: Monitor resource usage
+echo "Monitoring resource usage (kubectl top pods):"
+kubectl top pods
+
+echo "Scaling and monitoring complete."
+
