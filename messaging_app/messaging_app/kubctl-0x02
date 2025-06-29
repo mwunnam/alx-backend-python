@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# kubctl-0x02.sh
+# Purpose: Deploy blue-green versions and check logs
+
+echo "Deploying blue version..."
+kubectl apply -f blue_deployment.yaml
+
+echo "Deploying green version..."
+kubectl apply -f green_deployment.yaml
+
+echo "Applying service (currently pointing to blue)..."
+kubectl apply -f kubeservice.yaml
+
+echo "Waiting for green pods to be ready..."
+kubectl wait --for=condition=available deployment/django-green --timeout=60s
+
+echo "Listing green pods:"
+kubectl get pods -l version=green
+
+# Check logs for green pods
+echo "Checking logs for green deployment..."
+GREEN_PODS=$(kubectl get pods -l version=green -o jsonpath="{.items[*].metadata.name}")
+
+for pod in $GREEN_PODS; do
+  echo "Logs for $pod:"
+  kubectl logs "$pod"
+  echo "------------------------------------------------------------"
+done
+
+echo "Deployment complete. Manually switch service to 'version: green' in kubeservice.yaml when ready."
+
