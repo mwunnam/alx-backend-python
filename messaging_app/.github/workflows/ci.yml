@@ -1,0 +1,63 @@
+name: Django CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE:
+          MYSQL_USER:
+          MYSQL_PASSWORD:
+          MYSQL_ROOT_PASSWORD:
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    env:
+      DB_NAME:
+      DB_USER:
+      DB_PASSWORD:
+      DB_HOST:
+      DB_PORT:
+      SECRET_KEY:
+      DEBUG:
+
+    setps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.11'
+
+    - name: Install dependencies
+      run: | 
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Wait for MySQL to be ready
+      run: |
+        echo "Waiting for MySQL to be ready ..."
+        sleep 15 
+
+    - name: Run Django tests
+      env:
+        DJANGO_SETTINGS_MODULE: messaging_app.settings
+      run: |
+        python manage.py migrate
+        python manage.py test
+
