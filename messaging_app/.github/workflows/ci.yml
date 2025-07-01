@@ -48,6 +48,28 @@ jobs:
       run: | 
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+        pip install flake8 coverage
+
+    - name: Run Flaek8 Linting
+      run: |
+        echo "Running Flaek8..."
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        flake . --count --exit-zero --max-complexity=10 --max-line-length=88 --statistics
+      continue-on-error: false
+
+    - name: Run Tests with coverage
+      run: |
+        DJANGO_SETTINGS_MODULE: messaging_app.settings
+      run: |
+        coverage run manage.py test
+        coverage xml
+        coverage html
+
+    - name: Upload coverage Report
+      uses: actions/upload-artifact@v4
+      with:
+        name: html-coverage-report
+        path: htmlcov/
 
     - name: Wait for MySQL to be ready
       run: |
