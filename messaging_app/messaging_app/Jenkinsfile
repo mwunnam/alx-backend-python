@@ -5,13 +5,12 @@ pipeline {
         // Add the GITHUB credentials
         GIT_CREDENTIALS_ID = 'GIHUB_CREDS'
         REPO_URL = 'https://github.com/mwunnam/messaging_app.git'
-        git branch = 'main'
     }
 
     stages {
         stage('Clone Repository') {
             step {
-                git credentialsId: "${GIT_CREDENTIALS_ID}", url: "${REPO_URL}" 
+                git branch credentialsId: "${GIT_CREDENTIALS_ID}", url: "${REPO_URL}" 
             }
         }
 
