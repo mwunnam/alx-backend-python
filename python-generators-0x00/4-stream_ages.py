@@ -89,6 +89,8 @@ def connect_to_prodev():
     except Error as e:
         print(f"Error connecting to ALX_prodev: {e}")
 
+    def stream_user_ages():
+        pass
 
 def main():
     for page in lazy_pagination(100):
